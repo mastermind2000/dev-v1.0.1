@@ -1,5 +1,6 @@
 import React , {useState} from "react";
 import ReactDOM from "react-dom";
+import Axios from "axios";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
 import {
@@ -22,7 +23,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    Name: "",
+    name: "",
     email: "",
     role: "",
     group: "",
@@ -31,12 +32,22 @@ export default function Home() {
   const onSubmit = async (values) => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(300);
+    const url = "https://v233taxhe6.execute-api.us-east-2.amazonaws.com/beta";
+    Axios.post(url,{
+      name: values.name,
+      email: values.email,
+      role: values.role,
+      group: values.group,
+      policy: values.policy
+    })
+    console.log(values);
     window.alert(JSON.stringify(values, 0, 2));
   };
+ 
   const validate = (values) => {
     const errors = {};
-    if (!values.Name) {
-      errors.Name = "Required";
+    if (!values.name) {
+      errors.name = "Required";
     }
     if (!values.email) {
       errors.email = "Required";
@@ -69,7 +80,7 @@ export default function Home() {
                   <Field
                     fullWidth
                     required
-                    name="Name"
+                    name="name"
                     component={TextField}
                     type="text"
                     label="Name"
