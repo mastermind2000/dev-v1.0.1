@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Axios from "axios";
 import { Form, Field } from "react-final-form";
@@ -20,7 +20,6 @@ import {
 // Picker
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
-
 export default function Home() {
   const [formData, setFormData] = useState({
     name: "",
@@ -30,20 +29,25 @@ export default function Home() {
     policy: ""
   });
   const onSubmit = async (values) => {
-    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    await sleep(300);
     const url = "https://v233taxhe6.execute-api.us-east-2.amazonaws.com/beta";
-    Axios.post(url,{
+    Axios.post(url, {
       name: values.name,
       email: values.email,
       role: values.role,
       group: values.group,
       policy: values.policy
     })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     console.log(values);
     window.alert(JSON.stringify(values, 0, 2));
   };
- 
+
   const validate = (values) => {
     const errors = {};
     if (!values.name) {
